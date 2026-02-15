@@ -11,7 +11,7 @@ function StudentForm({ setStudent }) {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData({ ...formData, [name]: value });
+    setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = (e) => {
@@ -22,25 +22,42 @@ function StudentForm({ setStudent }) {
       return;
     }
 
-    if (formData.gpa < 0 || formData.gpa > 4) {
+    const gpaValue = parseFloat(formData.gpa);
+    if (isNaN(gpaValue) || gpaValue < 0 || gpaValue > 4) {
       toast.error("GPA must be between 0 and 4");
       return;
     }
 
-    setStudent(formData);
+    setStudent({ ...formData, gpa: gpaValue });
     toast.success("Student Registered Successfully!");
   };
 
   return (
     <form onSubmit={handleSubmit} className="form-grid">
-      <input name="name" placeholder="Full Name" onChange={handleChange} />
-      <input name="email" placeholder="Email Address" onChange={handleChange} />
-      <input name="course" placeholder="Course Name" onChange={handleChange} />
+      <input
+        name="name"
+        placeholder="Full Name"
+        value={formData.name}
+        onChange={handleChange}
+      />
+      <input
+        name="email"
+        placeholder="Email Address"
+        value={formData.email}
+        onChange={handleChange}
+      />
+      <input
+        name="course"
+        placeholder="Course Name"
+        value={formData.course}
+        onChange={handleChange}
+      />
       <input
         name="gpa"
         type="number"
         step="0.1"
         placeholder="GPA (0 - 4)"
+        value={formData.gpa}
         onChange={handleChange}
       />
 
