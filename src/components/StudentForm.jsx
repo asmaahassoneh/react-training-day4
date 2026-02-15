@@ -17,7 +17,11 @@ function StudentForm({ setStudent }) {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.name || !formData.email || !formData.course) {
+    if (
+      !formData.name.trim() ||
+      !formData.email.trim() ||
+      !formData.course.trim()
+    ) {
       toast.error("All fields are required");
       return;
     }
